@@ -82,7 +82,7 @@ between IPv4 and IPv6 lookup.
 * Supports HTTPS
 * Supports common command-line clients (e.g. `curl`, `httpie`, `ht`, `wget` and `fetch`)
 * JSON output
-* ASN, country and city lookup, using data from MaxMind
+* ASN, country and city lookup, using free GeoLite2 mmdb data
 * Port testing
 * All endpoints (except `/port`) can return information about a custom IP address specified via `?ip=` query parameter
 * Open source under the [BSD 3-Clause license](https://opensource.org/licenses/BSD-3-Clause)
@@ -112,17 +112,22 @@ Hub](https://hub.docker.com/r/mpolden/echoip), which can be downloaded with:
 
 ## Geolocation data
 
-`echoip` uses the MaxMind GeoIP databases to show additional information about
+`echoip` uses the GeoLite2 mmdb databases to show additional information about
 IP addresses, such as registered country/city and ASN details.
 
 The databases can be downloaded with:
 
-`GEOIP_LICENSE_KEY=<key> MAXMIND_ACCOUNT_ID=<account-id> make geoip-download`
+`make geoip-download`
 
-Downloading requires a MaxMind account and license key. See the following links for more information:
+This fetches the free GeoLite2 City, Country and ASN databases from the
+[P3TERX/GeoLite.mmdb](https://github.com/P3TERX/GeoLite.mmdb) mirror — no
+account or license key required. The mirror is rebuilt weekly from the
+upstream MaxMind GeoLite2 feed.
 
-- https://dev.maxmind.com/geoip/geolite2-free-geolocation-data
-- https://dev.maxmind.com/geoip/updating-databases/#directly-downloading-databases
+Override the source by setting `GEOIP_MIRROR` if you'd rather pull from a
+different mmdb host:
+
+`GEOIP_MIRROR=https://example.com/path make geoip-download`
 
 ### Usage
 
